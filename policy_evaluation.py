@@ -38,8 +38,8 @@ def policy_eval_pm(policy, env, discount_factor=1.0, theta=0.00001):
             delta = max(delta, np.abs(v_s - V[s]))
             V[s] = v_s
 
-        print("Iteration ", k, " with delta: ", delta)
-        print(V)
+        #print("Iteration ", k, " with delta: ", delta)
+        #print(V)
         k+=1
 
         if delta < theta:
