@@ -1,11 +1,12 @@
 import numpy as np
-import sys
-import gym
-from gym.envs.rl.gridworld import GridworldEnv # copied gridworld into gym env folder....
+from gym.envs.denny.gridworld import GridworldEnv
 
 env = GridworldEnv()
 
-# Exercise from Denny Britz. Implementation differs but result ok
+""" 
+Exercise from Denny Britz. Implementation differs but result ok
+https://github.com/dennybritz/reinforcement-learning/blob/master/DP/Policy%20Evaluation.ipynb 
+"""
 
 def policy_eval_pm(policy, env, discount_factor=1.0, theta=0.00001):
     """
