@@ -77,19 +77,17 @@ def sarsa(env, num_episodes, discount_factor=1.0, alpha=0.5, epsilon=0.1):
 
         # generate episode
         state = env.reset()
+        # get the policy for this state using the latest Q values and epsilon.
         action_prob = policy(state)
-        # now choose an action randomly from the possible actions (that are epsilon-greedy applied already)
-        action = np.random.choice(len(action_prob), p=action_prob) # why use arange here..?
-
-        #i = 0 # debug
-        #env.render() #debug
+        # now choose an action using the policy distribution vs uniform distribution
+        action = np.random.choice(len(action_prob), p=action_prob) # choice applies the distribution passed in
 
         # now take steps until the end of episode is reached and update Q[state][action]
         while True:
+            # Take a step
             next_state, reward, done, prob = env.step(action)
-            #env.render() #debug
 
-            # Get policy for next_state
+            # Get policy for next_state using latest Q-values; choose an action using the epsilon-greedy distri., etc.
             action_prob = policy(next_state)
             next_action = np.random.choice(len(action_prob), p=action_prob)
 
@@ -97,12 +95,10 @@ def sarsa(env, num_episodes, discount_factor=1.0, alpha=0.5, epsilon=0.1):
             Q[state][action] += alpha * ( (reward + discount_factor*Q[next_state][next_action]) - Q[state][action])
 
             # reset vars
-            #print("state", state, "action", action, "reward", reward, "next state", next_state, "next action", next_action, "q value", Q[state][action], "action prob", action_prob)
             state = next_state
             action = next_action
             stats.episode_lengths[i_episode] +=1
             stats.episode_rewards[i_episode] += reward
-            #i+=1 #debug
 
             # end of episode
             if done == True:
@@ -111,7 +107,7 @@ def sarsa(env, num_episodes, discount_factor=1.0, alpha=0.5, epsilon=0.1):
     return Q, stats
 
 env = WindyGridworldEnv()
-Q, stats = sarsa(env, 200)
+Q, stats = sarsa(env, 300)
 print(Q)
 
 plotting.plot_episode_stats(stats)
