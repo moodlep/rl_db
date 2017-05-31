@@ -57,8 +57,12 @@ class Estimator():
             in the environment where pred[i] is the prediction for action i.
 
         """
-        # TODO: Implement this!
-        return 0 if a else np.zeros(env.action_space.n)
+        features = self.featurize_state(s)
+
+        if not a:
+            return np.array([m.predict([features])[0] for m in self.models])
+        else:
+            return self.models[a].predict([features])[0]
 
     def update(self, s, a, y):
         """
@@ -66,6 +70,8 @@ class Estimator():
         the target y.
         """
         # TODO: Implement this!
+        features = self.featurize_state(s)
+        self.models[a].partial_fit([features], [y])
         return None
 
 
@@ -140,14 +146,17 @@ def q_learning(env, estimator, num_episodes, discount_factor=1.0, epsilon=0.1, e
             next_state, reward, done = env.step(action)
 
             # Prepare the target:
-            q_next_state = estimator.predict(next_state, action)
-            target = reward + discount_factor*np.max(q_next_state)
+            next_action_prob = policy(next_state) #note policy() calls estimator.predict(state)
+            next_action = np.random.choice(len(next_action_prob), p=next_action_prob)
+            q_next_state = estimator.predict(next_state, next_action)
+            target = reward + discount_factor*(q_next_state)
 
             # Update the parameters of this model:
             estimator.update(state, action, target)
 
-            action_prob = policy(state) #note policy() calls estimator.predict(state)
-            action = np.random.choice(len(action_prob), p=action_prob)
+            # set vars for next run:
+            action = next_action
+            state = next_state
 
             # end if env returns done = True
             if done == True:
