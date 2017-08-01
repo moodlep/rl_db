@@ -22,12 +22,16 @@ class User():
 
         # Sort out the environment related params:
         self.env = env
-        self.initial_state = self.env.reset()
-        self.game_deck = self.prepare_deck()
+        self.game_deck, self.list_of_cards, self.count_of_cards = self.prepare_deck()
+
+        # define the state, action and reward variables:
+        self.state = self.env.reset()
+        self.action = np.zeros(np.size(self.count_of_cards), dtype=float)
 
         self.round = 0
         self.max_rounds = max_rounds
-        self.score = 0.0
+        self.score = 0.0 # end of game reward
+        self.immediate_reward = 0.0 # immediate reward
 
         # start with 10 cards (7 coppers and 3 estates). implement shuffle and split into deck and hand
         for i in range(7): self.deck.append('copper')
@@ -90,6 +94,7 @@ class User():
     final_score: tallies the VPs at the end of the game. 
     '''
     def buy_card(self, card):
+        # modify this to take an action
         if self.env.buy_card(card):
             self.discard.append(card)
         else:
@@ -137,8 +142,10 @@ class User():
         # Now just extract the cards for this current game deck:
         subset = [(card['name'], card['features']) for card in all_cards if card['name'] in self.env.card_deck]
         game_cards = dict(subset)
+        list_of_cards = list(game_cards.keys())
+        count_of_cards = np.array(list(game_cards.values()), dtype=float)
 
-        return game_cards
+        return game_cards, list_of_cards, count_of_cards
 
     def final_score(self):
         #collect scores from deck, hand and discard
