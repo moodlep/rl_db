@@ -1,0 +1,169 @@
+{"cards": [
+
+{ "name": "market",
+  "type": "action",
+  "cost": 5,
+  "features":
+  {
+    "actions": 1,
+    "cards": 1,
+    "buys": 1,
+    "coins": 1
+  },
+  "count": 10
+},
+{ "name": "woodcutter",
+  "type": "action",
+  "cost": 3,
+  "features":
+  {
+      "buys": 1,
+      "coins": 2
+  },
+  "count": 10
+},
+{ "name": "moat",
+  "type": "action",
+  "cost": 2,
+  "features":
+  {
+        "cards": 2,
+        "reaction": 1
+  },
+  "count": 10
+},
+{ "name": "festival",
+  "type": "action",
+  "cost": 5,
+  "features":
+  {
+        "actions": 2,
+        "buys": 1,
+        "coins": 2
+  },
+  "count": 10
+},
+{ "name": "militia",
+  "type": "action",
+  "cost": 4,
+  "features":
+  {
+        "coins": 2,
+        "attack": 1
+  },
+  "count": 10
+},
+{ "name": "laboratory",
+  "type": "action",
+  "cost": 5,
+  "features":
+  {
+        "actions": 1,
+        "cards": 2
+  },
+  "count": 10
+},
+{ "name": "council_room",
+  "type": "action",
+  "cost": 5,
+  "features":
+  {
+        "cards": 4,
+        "buys": 1
+  },
+  "count": 10
+},
+{ "name": "chapel",
+  "type": "action",
+  "cost": 2,
+  "features":
+  {
+        "trash": 1
+  },
+  "count": 10
+},
+{ "name": "village",
+  "type": "action",
+  "cost": 3,
+  "features":
+  {
+        "actions": 2,
+        "cards": 1
+  },
+  "count": 10
+},
+{ "name": "smithy",
+  "type": "action",
+  "cost": 4,
+  "features":
+  {
+        "cards": 3
+  },
+  "count": 10
+},
+{ "name": "copper",
+"type": "treasure",
+"cost": 0,
+"features":
+{
+      "coins": 1
+},
+  "count": 40
+},
+{ "name": "silver",
+"type": "treasure",
+"cost": 3,
+"features":
+{
+  "coins": 2
+},
+  "count": 30
+},
+{ "name": "gold",
+"type": "treasure",
+"cost": 6,
+"features":
+{
+  "coins": 3
+},
+  "count": 30
+},
+{ "name": "estate",
+"type": "victory",
+"cost": 2,
+"features":
+{
+  "VP": 1
+},
+  "count": 40
+},
+{ "name": "duchy",
+"type": "victory",
+"cost": 5,
+"features":
+{
+  "VP": 3
+},
+  "count": 20
+},
+{ "name": "province",
+"type": "victory",
+"cost": 8,
+"features":
+{
+  "VP": 6
+},
+  "count": 12
+}
+
+
+
+
+
+
+
+
+  ]
+
+}
+
