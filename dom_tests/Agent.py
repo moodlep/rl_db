@@ -1,14 +1,15 @@
 import json
 import numpy as np
-import Environment as env
+import Environment
 
 class User():
-    def __init__(self, max_rounds):
+    def __init__(self, max_rounds, env, name):
         '''User initialised with empty deck, hand, discard lists. 
         Note: in_play is not used yet. 
         hand_stats used in play() to determine what action to follow
         self.env is used to communicate with the environment and get the next state, reward, etc. 
         '''
+        self.name = name
 
         # hand_stats: coins, cards, actions, VP, buys, attack, duration:
         self.hand_stats = np.zeros(7)
@@ -20,7 +21,7 @@ class User():
         self.in_play = []
 
         # Sort out the environment related params:
-        self.env = env.DominionEnvironment()
+        self.env = env
         self.initial_state = self.env.reset()
         self.game_deck = self.prepare_deck()
 
@@ -34,9 +35,9 @@ class User():
         self.deal()
 
         #print some starting stats
-        print("hand stats: ", self.hand_stats)
-        print("user hand: ", self.hand)
-        print("remaining deck cards: ", self.env.card_deck)
+        print(self.name, " hand stats: ", self.hand_stats)
+        print(self.name, " user hand: ", self.hand)
+        print(self.name, " remaining deck cards: ", self.env.card_deck)
 
     def play(self):
         # Search list of cards for action cards
@@ -70,11 +71,11 @@ class User():
                 self.buy_card("duchy")
 
         # print some stats:
-        print("Round: ", self.round)
-        print("hand stats: ", self.hand_stats)
-        print("user hand: ", self.hand)
-        print("remaining deck cards: ", self.env.card_deck)
-        print("discard: ", self.discard)
+        print(self.name, " Round: ", self.round)
+        print(self.name, " hand stats: ", self.hand_stats)
+        print(self.name, " user hand: ", self.hand)
+        print(self.name, " remaining deck cards: ", self.env.card_deck)
+        print(self.name, " discard: ", self.discard)
 
         self.round += 1  # increment the turn/round number
 
@@ -150,41 +151,42 @@ class User():
         for card in self.discard:
             if self.game_deck[card].get('VP') is not None:
                 self.score += float(self.game_deck[card].get('VP'))
-        print("user hand: ", self.hand)
-        print("user deck: ", self.deck)
-        print("discard: ", self.discard)
-        print("final score is: ", self.score)
+        print(self.name, " user hand: ", self.hand)
+        print(self.name, " user deck: ", self.deck)
+        print(self.name, " discard: ", self.discard)
+        print(self.name, " final score is: ", self.score)
 
 
 
 # test game
 
-max_rounds = 16
-user = User(max_rounds)
-print("hand stats: ", user.hand_stats)
-print("user hand: ", user.hand)
-print("remaining deck cards: ", user.env.card_deck)
-user.play()
-
-print("Round: ", user.round)
-print("hand stats: ", user.hand_stats)
-print("user hand: ", user.hand)
-print("remaining deck cards: ", user.env.card_deck)
-print("discard: ", user.discard)
-
-for i in range(max_rounds-1):
-    user.deal()
-    user.play()
-
-    print("Round: ", user.round)
-    print("hand stats: ", user.hand_stats)
-    print("user hand: ", user.hand)
-    print("remaining deck cards: ", user.env.card_deck)
-    print("discard: ", user.discard)
-
-# score the game:
-print("Final Scores: ")
-print("user hand: ", user.hand)
-print("user deck: ", user.deck)
-print("discard: ", user.discard)
-user.final_score()
+# max_rounds = 16
+# env = Environment.DominionEnvironment()
+# user = User(max_rounds, env)
+# print("hand stats: ", user.hand_stats)
+# print("user hand: ", user.hand)
+# print("remaining deck cards: ", user.env.card_deck)
+# user.play()
+#
+# print("Round: ", user.round)
+# print("hand stats: ", user.hand_stats)
+# print("user hand: ", user.hand)
+# print("remaining deck cards: ", user.env.card_deck)
+# print("discard: ", user.discard)
+#
+# for i in range(max_rounds-1):
+#     user.deal()
+#     user.play()
+#
+#     print("Round: ", user.round)
+#     print("hand stats: ", user.hand_stats)
+#     print("user hand: ", user.hand)
+#     print("remaining deck cards: ", user.env.card_deck)
+#     print("discard: ", user.discard)
+#
+# # score the game:
+# print("Final Scores: ")
+# print("user hand: ", user.hand)
+# print("user deck: ", user.deck)
+# print("discard: ", user.discard)
+# user.final_score()

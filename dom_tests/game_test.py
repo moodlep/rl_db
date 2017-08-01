@@ -4,8 +4,10 @@ import Environment
 
 
 max_rounds = 16
-userA = Agent.User(max_rounds)
-userB = Agent.User(max_rounds)
+env = Environment.DominionEnvironment()
+
+userA = Agent.User(max_rounds, env, "userA")
+userB = Agent.User(max_rounds, env, "userB")
 
 userA.play()
 userB.play()
