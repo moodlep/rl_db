@@ -11,21 +11,19 @@ class DominionEnvironment():
                 game[card['name']] = card['count']
         return game, cards
 
-    def _step(self, action):
+    def step(self, action):
 
         # based on action, update card_deck
+        for i, card in enumerate(action):
+            if card == 1.0: self.buy_card(self.list_of_cards[i])
 
         # check if game has ended and set flag
 
         # take a step - play a dummy user
 
-        # based on action, update card_deck
-
-        # check if game has ended and set flag
-
         # return next state, reward, done flag where state is all cards remaining and if any attacks were implemented.
 
-        return True
+        return self.state, 0.0, False
 
     def __init__(self):
         # define the game environment
