@@ -1,4 +1,3 @@
-import json
 import numpy as np
 import Environment
 
@@ -39,9 +38,6 @@ class User():
         for i in range(3): self.deck.append('estate')
         self.deal()
 
-        # store the value function
-        self.v_s = []
-
         #print some starting stats
         print(self.name, ": ")
         if self.print_debug:
@@ -70,21 +66,19 @@ class User():
         reward = 0.0
         next_state = self.state
 
-        self.game_action()
-
         # Take an action: buy something
-        # if self.round < (self.max_rounds/2):
-        #     # buy money
-        #     if self.hand_stats[0] >= 6:
-        #         next_state, reward, flag = self.buy_card("gold")
-        #     elif self.hand_stats[0] >= 3:
-        #         next_state, reward, flag = self.buy_card("silver")
-        # else:
-        #     # buy VPs
-        #     if self.hand_stats[0] >= 8:
-        #         next_state, reward, flag = self.buy_card("province")
-        #     elif self.hand_stats[0] >= 5:
-        #         next_state, reward, flag = self.buy_card("duchy")
+        if self.round < (self.max_rounds/2):
+            # buy money
+            if self.hand_stats[0] >= 6:
+                next_state, reward, flag = self.buy_card("gold")
+            elif self.hand_stats[0] >= 3:
+                next_state, reward, flag = self.buy_card("silver")
+        else:
+            # buy VPs
+            if self.hand_stats[0] >= 8:
+                next_state, reward, flag = self.buy_card("province")
+            elif self.hand_stats[0] >= 5:
+                next_state, reward, flag = self.buy_card("duchy")
 
         # print some stats:
         print(self.name, " Round: ", self.round)
@@ -109,48 +103,6 @@ class User():
     prepare_deck: extract all the cards that are appropriate for this game. Call at the start of the game
     final_score: tallies the VPs at the end of the game. 
     '''
-
-    def game_action(self, discount_factor=1.0, alpha=0.5, epsilon=0.1):
-        # determine strength of hand
-        self.get_hand_stats()
-
-        # using the value function and strength of hand...? select an action:
-
-
-        # Take an action: buy something
-        if self.round < (self.max_rounds/2):
-            # buy money
-            if self.hand_stats[0] >= 6:
-                card = "gold"
-            elif self.hand_stats[0] >= 3:
-                card = "silver"
-        else:
-            # buy VPs
-            if self.hand_stats[0] >= 8:
-                card = "province"
-            elif self.hand_stats[0] >= 5:
-                card = "duchy"
-        # place the buy action:
-        next_state, reward, flag = self.buy_card(card)
-
-        # update the value function
-        self.action.fill(0.0)
-        self.action[self.list_of_cards.index(card)] = 1.0
-        v = 0.0
-        v += alpha * ((reward + discount_factor * self.get_value_of_state([next_state]) - self.get_value_of_state([self.state])))
-
-        if self.state in self.v_s[:,0]:
-            self.v_s[self.v_s.index(self.state),1] += v
-        else:
-            #add
-            self.v_s.append([self.action, v])
-
-    def get_value_of_state(self, state):
-        value = 0.0
-        if state in self.v_s[:,0]:
-            value = self.v_s[self.v_s.index(state),1]
-        return value
-
     def buy_card(self, card):
         # modify this to take an action
         # if self.env.buy_card(card):
@@ -228,19 +180,18 @@ class User():
             print(self.name, " user deck: ", self.deck)
             print(self.name, " discard: ", self.discard)
         print(self.name, " final score is: ", self.score)
-        print(self.name, "value function is: ", self.v_s)
 
 
 # test game
 
-max_rounds = 16
-env = Environment.DominionEnvironment()
-user = User(max_rounds, env, "userA")
-user.play()
-
-for i in range(max_rounds-1):
-    user.deal()
-    user.play()
-
-# score the game:
-user.final_score()
+# max_rounds = 16
+# env = Environment.DominionEnvironment()
+# user = User(max_rounds, env, "userA")
+# user.play()
+#
+# for i in range(max_rounds-1):
+#     user.deal()
+#     user.play()
+#
+# # score the game:
+# user.final_score()
