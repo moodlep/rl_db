@@ -27,7 +27,8 @@ class User():
 
         # define the state, action and reward variables:
         self.state = self.env.reset()
-        self.action = np.zeros(np.size(self.count_of_cards), dtype=float)
+        self.nA = np.size(self.count_of_cards)
+        self.action = np.zeros(self.nA, dtype=float)
 
         self.round = 0
         self.max_rounds = max_rounds
@@ -110,6 +111,12 @@ class User():
     prepare_deck: extract all the cards that are appropriate for this game. Call at the start of the game
     final_score: tallies the VPs at the end of the game. 
     '''
+    def apply_policy(self, state, epsilon, nA):
+        action = np.ones(nA, dtype=float) * epsilon / nA
+        q_values = estimator.predict(observation)
+        best_action = np.argmax(q_values)
+        A[best_action] += (1.0 - epsilon)
+        return A
 
     def game_action(self, discount_factor=1.0, alpha=0.5, epsilon=0.1):
         # determine strength of hand
