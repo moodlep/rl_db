@@ -69,6 +69,7 @@ class User():
         # need to set some inits until the card logic is resolved.
         reward = 0.0
         next_state = self.state
+        self.v_s.append([self.state, 0.0])
 
         self.game_action()
 
@@ -143,12 +144,15 @@ class User():
             self.v_s[self.v_s.index(self.state),1] += v
         else:
             #add
-            self.v_s.append([self.action, v])
+            self.v_s.append([self.state, v])
+        print(self.name, "value function is: ", self.v_s)
 
     def get_value_of_state(self, state):
         value = 0.0
-        if state in self.v_s[:,0]:
+        if state in self.v_s:
             value = self.v_s[self.v_s.index(state),1]
+        else:
+            self.v_s.append([state, value])
         return value
 
     def buy_card(self, card):
@@ -233,7 +237,7 @@ class User():
 
 # test game
 
-max_rounds = 16
+max_rounds = 30
 env = Environment.DominionEnvironment()
 user = User(max_rounds, env, "userA")
 user.play()

@@ -1,4 +1,3 @@
-import Agent
 import ManualAgent
 import Environment
 
